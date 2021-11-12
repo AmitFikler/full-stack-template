@@ -23,7 +23,9 @@ mongoose //connect
 app.use(cors());
 app.use(express.json());
 
-app.use('/', express.static(`./front/dist/`)); //heroku
+//heroku
+
+app.use('/', express.static(`./front/dist/`));
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/front/dist/index.html');
 });
