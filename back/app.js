@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const app = express();
 require('dotenv').config();
 const userRouter = require('./routers/user');
@@ -19,6 +20,14 @@ mongoose //connect
     console.log('error connecting to MongoDB:', error.message);
   });
 
+app.use(cors());
+app.use(express.json());
+
+app.use('/', express.static(`./front/dist/`)); //heroku
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/front/dist/index.html');
+});
+
 app.get('/', (req, res) => {
   res.send('working');
 });
@@ -31,5 +40,5 @@ app.use(unknownEndpoint);
 app.use(errorHandlingMiddleware);
 
 app.listen(port, () => {
-  console.log(`litsening in port ${port}`);
+  console.log(`litsening in port ${port}...`);
 });
